@@ -1,22 +1,19 @@
-name: "tagged-release"
-
-on:
-  push:
-    tags:
-      - "(\\d)+\\.(\\d)+\\.(\\d)+"
-
 jobs:
   tagged-release:
-    name: "Tagged Release"
-    runs-on: "ubuntu-latest"
-
+    name: Tagged Release
+    runs-on: self-hosted
     steps:
-      - name: "Creating a release"
-        run: |
-          echo "done!"
+    - continue-on-error: true
+      name: Creating a release
+      run: 'echo "done!"
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-
+        '
+    - continue-on-error: true
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        prerelease: false
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+name: tagged-release
+on:
+  repository_dispatch:
+    types: trigger-ga___releases.yml

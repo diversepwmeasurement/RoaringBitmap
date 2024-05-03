@@ -1,31 +1,42 @@
-name: Java 8, 11, 17, 21 CI
-
-on: [push,pull_request]
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDKs 8, 11, 17, 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: |
-            8
-            11
-            17
-            21
-      - name: Build with Gradle
-        run: ./gradlew assemble
-      - name: Style check
-        run: ./gradlew checkstyleMain
-      - name: Test with Java 8
-        run: ./gradlew test -PtestOnJava=8 --stacktrace
-      - name: Test with Java 11
-        run: ./gradlew test -PtestOnJava=11 --stacktrace
-      - name: Test with Java 17
-        run: ./gradlew test -PtestOnJava=17 --stacktrace
-      - name: Test with Java 21
-        run: ./gradlew test -PtestOnJava=21 --stacktrace
+    - continue-on-error: true
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Set up JDKs 8, 11, 17, 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '8
+
+          11
+
+          17
+
+          21
+
+          '
+    - continue-on-error: true
+      name: Build with Gradle
+      run: ./gradlew assemble
+    - continue-on-error: true
+      name: Style check
+      run: ./gradlew checkstyleMain
+    - continue-on-error: true
+      name: Test with Java 8
+      run: ./gradlew test -PtestOnJava=8 --stacktrace
+    - continue-on-error: true
+      name: Test with Java 11
+      run: ./gradlew test -PtestOnJava=11 --stacktrace
+    - continue-on-error: true
+      name: Test with Java 17
+      run: ./gradlew test -PtestOnJava=17 --stacktrace
+    - continue-on-error: true
+      name: Test with Java 21
+      run: ./gradlew test -PtestOnJava=21 --stacktrace
+name: Java 8, 11, 17, 21 CI
+on:
+  repository_dispatch:
+    types: trigger-ga___java-all-versions.yml

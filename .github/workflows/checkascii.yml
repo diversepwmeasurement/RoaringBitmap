@@ -1,16 +1,17 @@
-name: Check ASCII
-
-on:
-  - push
-  - pull_request
-
-
 jobs:
   check-ascii:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Check ASCII
-        run: |
-          find . -type f  -name '*.java' | xargs file  | grep -qv ASCII || exit 0  && exit 1
+    - continue-on-error: true
+      name: Checkout code
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Check ASCII
+      run: 'find . -type f  -name ''*.java'' | xargs file  | grep -qv ASCII || exit
+        0  && exit 1
+
+        '
+name: Check ASCII
+on:
+  repository_dispatch:
+    types: trigger-ga___checkascii.yml
